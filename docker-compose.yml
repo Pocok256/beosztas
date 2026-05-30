@@ -1,0 +1,17 @@
+services:
+  beosztas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: beosztas-app
+    init: true
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3000
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    volumes:
+      - ./data:/app/data
+      - ./exports:/app/exports

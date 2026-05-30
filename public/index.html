@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="hu">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Havi beosztas generator</title>
+    <link rel="stylesheet" href="./styles.css" />
+    <script src="./app.js" defer></script>
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="shape shape-one"></div>
+      <div class="shape shape-two"></div>
+      <header class="hero panel">
+        <div>
+          <p class="eyebrow">Havi beosztas, szebb feluleten</p>
+          <h1>Honapra generalhato, exportalhato beosztas</h1>
+          <p class="hero-copy">
+            A rendszer figyeli a hetvegi 24 oras, a hetkozbeni 16 oras napokat, az elutasitott napokat,
+            es igyekszik minel folytonosabb blokkokat, valamint a 168 oras celhoz kozeli terhelest adni.
+          </p>
+        </div>
+        <div class="hero-card">
+          <span>Szabalyok</span>
+          <strong>max. 2 fo / nap</strong>
+          <small>1 embernel a teljes napi ora, 2 embernel mindketten kulon megkapjak a teljes 16 vagy 24 orat.</small>
+        </div>
+      </header>
+
+      <main class="top-layout">
+        <section class="panel composer-panel">
+          <div class="panel-topline">
+            <div>
+              <p class="section-label">Beallitasok</p>
+              <h2>Generalas inditasa</h2>
+            </div>
+            <button type="button" class="secondary-button" id="reset-form-btn">Alaphelyzet</button>
+          </div>
+
+          <form id="generator-form" class="generator-form">
+            <label class="field">
+              <span>Aktualis honap</span>
+              <input id="month-input" name="month" type="month" required />
+            </label>
+
+            <section class="exception-section">
+              <div class="subsection-head">
+                <div>
+                  <p class="section-label">Kivetelek</p>
+                  <h3>Kezi felulirasok az adott honapra</h3>
+                </div>
+                <button type="button" class="secondary-button" id="add-exception-btn">Kivetel hozzaadasa</button>
+              </div>
+
+              <p class="chip-note">Felulirhatod az automatikus hetvege es unnepnap logikat, peldaul ledolgozos szombatra vagy athelyezett pihenonapra.</p>
+              <div id="exceptions-list" class="exceptions-list"></div>
+            </section>
+
+            <div class="subsection-head">
+              <div>
+                <p class="section-label">Emberek</p>
+                <h3>Munkatarsak es nem vallalt napok</h3>
+              </div>
+              <button type="button" class="secondary-button" id="add-person-btn">Uj ember</button>
+            </div>
+
+            <div id="people-list" class="people-list"></div>
+
+            <div class="form-footer">
+              <button type="submit" class="primary-button" id="generate-btn">Beosztas generalasa</button>
+              <p id="form-status" class="status-text">Nyisd meg a honapot, add meg a neveket, majd jelold ki a nem vallalt napokat.</p>
+            </div>
+          </form>
+        </section>
+
+        <aside class="panel history-panel">
+          <div class="panel-topline">
+            <div>
+              <p class="section-label">Archivum</p>
+              <h2>Korabbi generalasok</h2>
+            </div>
+            <button type="button" class="secondary-button" id="refresh-history-btn">Frissit</button>
+          </div>
+          <div id="history-list" class="history-list"></div>
+        </aside>
+      </main>
+
+      <section class="panel result-panel">
+        <div class="panel-topline result-headline">
+          <div>
+            <p class="section-label">Eredmeny</p>
+            <h2>Generalalt beosztas</h2>
+          </div>
+          <div class="result-actions" id="result-actions"></div>
+        </div>
+
+        <div id="result-empty" class="empty-state">
+          <h3>Meg nincs beosztas.</h3>
+          <p>A generalas utan itt jelenik meg a havi nezet, az osszegzes es a megnyithato HTML export linkje.</p>
+        </div>
+
+        <div id="result-content" class="result-content hidden"></div>
+      </section>
+    </div>
+  </body>
+</html>
