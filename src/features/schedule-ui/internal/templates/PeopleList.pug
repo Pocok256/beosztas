@@ -1,0 +1,28 @@
+each person in people
+  article.card.scheduler-card
+    .card-body
+      .scheduler-card-head
+        label.form-control.scheduler-field.scheduler-grow
+          .label
+            span.label-text= `${person.index + 1}. munkatars neve`
+          input.input.input-bordered(
+            type="text"
+            placeholder="Peldaul: Kovacs Anna"
+            value=person.name
+            data-action="name-input"
+            data-person-id=person.id
+          )
+        if person.canRemove
+          button.btn.btn-sm.btn-outline.btn-error(type="button" data-action="remove-person" data-person-id=person.id) Torol
+      .scheduler-meta-row
+        span.badge.badge-outline= monthLabel
+        span(class=["badge", "scheduler-status-badge", person.unavailableDaysCount > 0 ? "is-blocked" : "badge-neutral"])= `${person.unavailableDaysCount} tiltott nap`
+      .scheduler-toolbar
+        div
+          p.scheduler-eyebrow Elvallalhatosag
+          h3 Nem vallalt napok
+        .scheduler-inline-actions
+          button.btn.btn-sm.btn-ghost(type="button" data-action="toggle-weekends" data-person-id=person.id) Hetvegek
+          button.btn.btn-sm.btn-ghost(type="button" data-action="clear-days" data-person-id=person.id) Torol mind
+      p.scheduler-chip-note Kattints a napokra. A kijelolt napokon az adott ember nem lesz beoszthato.
+      != person.calendarMarkup

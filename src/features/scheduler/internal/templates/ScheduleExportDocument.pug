@@ -1,0 +1,301 @@
+doctype html
+html(lang="hu" data-theme="corporate")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title= `Beosztas - ${MONTH_LABEL}`
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet")
+    link(href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css")
+    link(href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css")
+    script(src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4")
+    style.
+      :root {
+        color-scheme: light;
+        --fallback-ink: #17313a;
+      }
+
+      .export-display {
+        font-family: "Fraunces", Georgia, serif;
+        letter-spacing: -0.02em;
+      }
+
+      .export-eyebrow {
+        color: #1f6a70;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .legend-chip {
+        border-color: var(--person-border, rgba(23, 49, 58, 0.14));
+        background: var(--person-surface, rgba(255, 255, 255, 0.88));
+        color: var(--person-text, var(--fallback-ink));
+      }
+
+      .legend-swatch {
+        background: var(--person-accent, #1f6a70);
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.72);
+      }
+
+      .person-tone {
+        border-color: var(--person-border, rgba(23, 49, 58, 0.14)) !important;
+        background: linear-gradient(180deg, var(--person-surface, rgba(255, 255, 255, 0.96)), rgba(255, 255, 255, 0.84)) !important;
+        color: var(--person-text, var(--fallback-ink));
+        box-shadow: inset 0 4px 0 var(--person-accent, #1f6a70), 0 18px 40px rgba(14, 33, 40, 0.08);
+      }
+
+      .scheduler-accent {
+        color: var(--person-accent, #1f6a70);
+      }
+
+      .warning-list li + li {
+        margin-top: 0.35rem;
+      }
+
+      .export-hero-grid {
+        display: grid;
+        gap: 2rem;
+        align-items: start;
+        min-width: 0;
+      }
+
+      .export-hero-copy {
+        display: grid;
+        gap: 1.25rem;
+        min-width: 0;
+      }
+
+      .export-pill-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+      }
+
+      .export-stats-panel {
+        border: 1px solid rgba(23, 49, 58, 0.1);
+        border-radius: 1.75rem;
+        background: rgba(255, 255, 255, 0.72);
+        padding: 1.25rem;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        min-width: 0;
+      }
+
+      .export-stats-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+      }
+
+      .export-stat {
+        display: grid;
+        gap: 0.35rem;
+        padding: 0.85rem 0.9rem;
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.76);
+        border: 1px solid rgba(23, 49, 58, 0.08);
+      }
+
+      .export-stat-title {
+        color: #5f7178;
+        font-size: 0.9rem;
+      }
+
+      .export-stat-value {
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 2rem;
+        line-height: 1;
+        color: #17313a;
+        letter-spacing: -0.02em;
+      }
+
+      .export-stat-desc {
+        color: #5f7178;
+        font-size: 0.9rem;
+      }
+
+      .table-shell {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        overflow: auto;
+        border: 1px solid rgba(23, 49, 58, 0.12);
+        border-radius: 1.5rem;
+        background: rgba(255, 255, 255, 0.78);
+      }
+
+      .data-table {
+        width: 100%;
+        min-width: 720px;
+        border-collapse: separate;
+        border-spacing: 0;
+      }
+
+      .data-table th,
+      .data-table td {
+        padding: 0.8rem 0.9rem;
+        border-bottom: 1px solid rgba(23, 49, 58, 0.1);
+        border-right: 1px solid rgba(23, 49, 58, 0.08);
+        vertical-align: top;
+      }
+
+      .data-table thead th {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        background: rgba(247, 252, 252, 0.96);
+        color: #17313a;
+        font-size: 0.74rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .data-table th:last-child,
+      .data-table td:last-child {
+        border-right: 0;
+      }
+
+      .data-table tbody tr:last-child th,
+      .data-table tbody tr:last-child td {
+        border-bottom: 0;
+      }
+
+      .matrix-stub,
+      .matrix-weekday,
+      .matrix-day-number {
+        position: sticky;
+        left: 0;
+        z-index: 1;
+        background: rgba(250, 247, 240, 0.98);
+      }
+
+      .matrix-day-number {
+        left: 4.9rem;
+        min-width: 4.5rem;
+        text-align: center;
+      }
+
+      .matrix-weekday {
+        min-width: 4.9rem;
+        text-align: center;
+      }
+
+      .data-table thead .matrix-stub {
+        z-index: 3;
+      }
+
+      .matrix-person {
+        min-width: 11rem;
+        background: var(--person-surface, rgba(247, 252, 252, 0.96)) !important;
+        color: var(--person-text, var(--fallback-ink));
+        box-shadow: inset 0 -3px 0 var(--person-accent, #1f6a70);
+      }
+
+      .matrix-row.is-weekend > th,
+      .matrix-row.is-weekend > td {
+        background: rgba(255, 242, 228, 0.82);
+      }
+
+      .matrix-row.is-holiday > th,
+      .matrix-row.is-holiday > td {
+        background: rgba(237, 248, 238, 0.82);
+      }
+
+      .matrix-row.is-override > th,
+      .matrix-row.is-override > td {
+        background: rgba(236, 248, 249, 0.84);
+      }
+
+      .matrix-row.is-empty > th,
+      .matrix-row.is-empty > td {
+        background: rgba(255, 241, 241, 0.8);
+      }
+
+      .matrix-cell {
+        min-width: 11rem;
+      }
+
+      .matrix-cell.is-empty {
+        background: rgba(23, 49, 58, 0.02);
+      }
+
+      .matrix-assignment {
+        display: grid;
+        gap: 0.5rem;
+        padding: 0.75rem 0.8rem;
+        border-radius: 1rem;
+        min-height: 4.5rem;
+      }
+
+      .matrix-shift {
+        font-size: 0.86rem;
+        line-height: 1.45;
+        font-weight: 700;
+      }
+
+      .summary-table th:first-child,
+      .summary-table tbody th {
+        background: rgba(247, 252, 252, 0.92);
+        font-weight: 800;
+        text-align: left;
+      }
+
+      .summary-table td,
+      .summary-table th {
+        white-space: nowrap;
+      }
+  body(class="min-h-screen text-slate-800" style="font-family: 'Manrope', 'Segoe UI', sans-serif; background: radial-gradient(circle at top left, rgba(210, 128, 68, 0.18), transparent 32%), radial-gradient(circle at top right, rgba(17, 90, 95, 0.18), transparent 28%), linear-gradient(180deg, #fffdf9 0%, #f7f3ec 54%, #f3efe8 100%);")
+    main(class="mx-auto grid max-w-7xl gap-6 px-4 py-6 lg:px-8")
+      header(class="card rounded-[2rem] border border-slate-800/10 bg-white/80 shadow-2xl backdrop-blur-xl")
+        div(class="card-body p-6 lg:p-8")
+          .export-hero-grid
+            .export-hero-copy
+              .space-y-2
+                p.export-eyebrow Havi beosztas
+                h1(class="export-display text-4xl leading-none sm:text-5xl lg:text-6xl")= MONTH_LABEL
+                p(class="max-w-2xl text-base leading-7 text-slate-600") A teljes havi bontas, a munkatarsankenti osszesites es a napi beosztas egy oldalon.
+              .export-pill-row
+                span(class="badge badge-lg gap-2 border-slate-800/10 bg-white/75 px-4 py-4 text-sm font-semibold")= `Generalva: ${CREATED_AT_LABEL}`
+                span(class="badge badge-lg gap-2 border-slate-800/10 bg-white/75 px-4 py-4 text-sm font-semibold")= `${PEOPLE_COUNT} munkatars`
+                span(class="badge badge-lg gap-2 border-slate-800/10 bg-white/75 px-4 py-4 text-sm font-semibold")= `${WARNING_COUNT} figyelmeztetes`
+            aside.export-stats-panel
+              .export-stats-grid
+                .export-stat
+                  .export-stat-title Osszes kiosztott ora
+                  .export-stat-value= SCHEDULED_HOURS
+                  .export-stat-desc ora
+                .export-stat
+                  .export-stat-title Cel orakeret
+                  .export-stat-value= DESIRED_TARGET_HOURS
+                  .export-stat-desc ora / fo
+                .export-stat
+                  .export-stat-title Minimum lefedes
+                  .export-stat-value= MINIMUM_COVERAGE_HOURS
+                  .export-stat-desc ora
+                .export-stat
+                  .export-stat-title Lefedetlen napok
+                  .export-stat-value= UNCOVERED_DAYS
+                  .export-stat-desc nap
+      section(class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4")
+        != SUMMARY_CARDS_MARKUP
+      != WARNING_MARKUP
+      section(class="card rounded-[2rem] border border-slate-800/10 bg-white/80 shadow-xl backdrop-blur-xl")
+        div(class="card-body gap-5 p-6 lg:p-7")
+          div(class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between")
+            div
+              p.export-eyebrow Beosztas matrix
+              h2(class="export-display text-2xl leading-tight") XLS export matrix
+            p(class="max-w-xl text-sm leading-6 text-slate-600") A napi matrix ugyanazt az oszlopos, konnyen kovetheto szerkezetet adja vissza, mint az XLS export.
+          != SCHEDULE_MATRIX_MARKUP
+      section(class="card rounded-[2rem] border border-slate-800/10 bg-white/80 shadow-xl backdrop-blur-xl")
+        div(class="card-body gap-5 p-6 lg:p-7")
+          div(class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between")
+            div
+              p.export-eyebrow Osszesites
+              h2(class="export-display text-2xl leading-tight") Tabla nezetu osszesito
+            p(class="max-w-xl text-sm leading-6 text-slate-600") A szemelyenkenti osszesito ugyanazt a logikat koveti, mint az XLS osszesito lapja.
+          != SUMMARY_TABLE_MARKUP
+      != SPECIAL_DAYS_MARKUP

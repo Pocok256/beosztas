@@ -1,0 +1,22 @@
+.scheduler-table-shell
+  table.scheduler-data-table.scheduler-schedule-table
+    thead
+      tr
+        th.scheduler-matrix-stub
+        th.scheduler-matrix-stub
+        each person in people
+          th.scheduler-matrix-person(style=person.style)= person.name
+    tbody
+      each row in rows
+        tr(class=["scheduler-matrix-row", row.toneClass])
+          th.scheduler-matrix-weekday= row.weekdayLabel
+          th.scheduler-matrix-day-number= row.dayNumberLabel
+          each cell in row.cells
+            if cell.isEmpty
+              td.scheduler-matrix-cell.is-empty
+            else
+              td.scheduler-matrix-cell.has-assignment
+                .scheduler-matrix-assignment.person-tone(style=cell.style)
+                  span.scheduler-matrix-shift= cell.shiftLabel
+                  if cell.role
+                    span(class=["badge", "badge-outline", "scheduler-role-badge", `role-${cell.role}`])= cell.role

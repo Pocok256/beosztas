@@ -1,0 +1,37 @@
+details.scheduler-config-menu
+  summary.scheduler-config-menu-summary
+    .scheduler-config-summary-copy
+      p.scheduler-eyebrow Halado menu
+      h3.scheduler-section-title.is-small Scheduler finomhangolas
+      p.scheduler-chip-note Nyisd le, ha a generator dontesi sulyaiba vagy toleranciaiba akarsz belenyulni.
+    span.badge.badge-outline.scheduler-config-count= `${fieldCount} beallitas`
+  .scheduler-stack.scheduler-config-menu-body
+    each section in sections
+      article.card.scheduler-card
+        .card-body.scheduler-stack
+          div
+            p.scheduler-eyebrow= section.title
+            p.scheduler-chip-note= section.description
+          .scheduler-config-grid
+            each field in section.fields
+              article.scheduler-muted-card.scheduler-config-field-card
+                .scheduler-config-field-head
+                  p.scheduler-eyebrow Finomhangolas
+                  span.badge.badge-outline.scheduler-config-env= field.envName
+                h4.scheduler-config-field-title= field.label
+                p.scheduler-chip-note= field.description
+                label.form-control.scheduler-field
+                  .label
+                    span.label-text Aktualis ertek
+                    span.label-text-alt= `Alap: ${field.defaultValueLabel}`
+                  input.input.input-bordered(
+                    type="number"
+                    inputmode="decimal"
+                    min=field.min
+                    max=field.max
+                    step=field.step
+                    value=field.valueLabel
+                    data-action="config-input"
+                    data-config-key=field.key
+                  )
+                p.scheduler-config-meta= `Tartomany: ${field.minLabel} - ${field.maxLabel} · Lepeskoz: ${field.stepLabel}`

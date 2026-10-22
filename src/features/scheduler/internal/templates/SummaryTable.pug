@@ -1,0 +1,23 @@
+.table-shell
+  table.data-table.summary-table
+    thead
+      tr
+        th Ember
+        th Osszes ora
+        th Primary ora
+        th Secondary ora
+        th Elteres a 168 oratol
+        th Ledolgozott napok
+        th Ketfos napok
+        th Blokkok
+    tbody
+      each person in people
+        tr
+          th= person.name
+          td= person.totalHours
+          td= person.primaryHours
+          td= person.secondaryHours
+          td= person.targetDeltaLabel
+          td= person.workedDays
+          td= person.splitDays
+          td= person.blocks

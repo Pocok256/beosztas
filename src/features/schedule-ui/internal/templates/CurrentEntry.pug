@@ -1,0 +1,41 @@
+.scheduler-result-meta
+  div
+    p.scheduler-eyebrow Generalas
+    h3= `${monthLabel} beosztasa`
+  .scheduler-pill-row
+    span.badge.badge-outline= `${peopleCount} ember`
+    span.badge.badge-outline= createdAtLabel
+
+section.scheduler-summary-grid
+  each card in summaryCards
+    article(class=["card", "scheduler-card", card.alert ? "scheduler-card-alert" : ""])
+      .card-body
+        p.scheduler-eyebrow= card.title
+        h3= card.metric
+        p= card.text
+
+if warnings.length
+  section.scheduler-stack
+    .alert.alert-warning
+      div
+        h3 Figyelmeztetesek
+        ul.scheduler-warning-list
+          each warning in warnings
+            li= warning
+
+section.scheduler-stack
+  .scheduler-section-head
+    div
+      p.scheduler-eyebrow Beosztas matrix
+      h3 XLS export matrix
+    p.scheduler-chip-note A napi matrix ugyanazt az attekintheto, oszlopos szerkezetet koveti, mint az XLS export.
+  != scheduleMatrixMarkup
+
+section.scheduler-stack
+  .scheduler-section-head
+    div
+      p.scheduler-eyebrow Osszesites
+      h3 Tabla nezetu osszesito
+  != summaryTableMarkup
+
+!= specialDaysMarkup

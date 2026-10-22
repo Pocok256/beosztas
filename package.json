@@ -2,14 +2,31 @@
   "name": "beosztas-generator",
   "version": "1.0.0",
   "description": "Havi beosztas generator HTML exporttal",
-  "main": "server.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "test": "node --test"
+    "build": "rm -rf dist && npm run compile:client-templates && npm run build:server && npm run copy:templates && npm run build:client && npm run copy:public",
+    "build:server": "tsc -p tsconfig.server.json && tsc-alias -p tsconfig.server.json",
+    "build:client": "tsc -p tsconfig.client.json && tsc-alias -p tsconfig.client.json",
+    "compile:client-templates": "node scripts/compileClientPugTemplates.js",
+    "copy:templates": "mkdir -p dist/src/features/scheduler/internal && cp -R src/features/scheduler/internal/templates dist/src/features/scheduler/internal/",
+    "copy:public": "mkdir -p dist/public && cp -R public/. dist/public/",
+    "prestart": "npm run build",
+    "start": "node dist/server.js",
+    "dev": "npm run build && node dist/server.js",
+    "test": "npm run build && node --test dist/test/*.test.js"
   },
   "dependencies": {
     "date-holidays": "^3.28.0",
-    "express": "^4.21.2"
+    "dotenv": "^17.4.2",
+    "express": "^4.21.2",
+    "pug": "^3.0.4",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.3",
+    "@types/node": "^24.3.0",
+    "@types/pug": "^2.0.10",
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.9.2"
   }
 }

@@ -1,0 +1,17 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "outDir": "./dist/public",
+    "rootDir": "./src",
+    "target": "ES2022",
+    "types": []
+  },
+  "include": [
+    "src/features/schedule-ui/**/*.ts",
+    "src/shared/**/*.ts"
+  ],
+  "exclude": ["dist"]
+}

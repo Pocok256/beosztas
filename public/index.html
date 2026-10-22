@@ -1,106 +1,192 @@
 <!DOCTYPE html>
-<html lang="hu">
+<html lang="hu" data-theme="corporate">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Havi beosztas generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="./styles.css" />
-    <script src="./app.js" defer></script>
+    <script type="module" src="./features/schedule-ui/bootstrapScheduleApp.js"></script>
   </head>
   <body>
-    <div class="page-shell">
-      <div class="shape shape-one"></div>
-      <div class="shape shape-two"></div>
-      <header class="hero panel">
-        <div>
-          <p class="eyebrow">Havi beosztas, szebb feluleten</p>
-          <h1>Honapra generalhato, exportalhato beosztas</h1>
-          <p class="hero-copy">
-            A rendszer figyeli a hetvegi 24 oras, a hetkozbeni 16 oras napokat, az elutasitott napokat,
-            es igyekszik minel folytonosabb blokkokat, valamint a 168 oras celhoz kozeli terhelest adni.
-          </p>
+    <div class="scheduler-orb scheduler-orb-one"></div>
+    <div class="scheduler-orb scheduler-orb-two"></div>
+    <div class="scheduler-orb scheduler-orb-three"></div>
+
+    <div id="app-top" class="mx-auto flex min-h-screen max-w-7xl flex-col gap-6 px-4 py-6 lg:px-8">
+      <nav class="scheduler-topbar">
+        <a href="#app-top" class="scheduler-brandmark">
+          <span class="scheduler-brandmark-badge">B</span>
+          <span>
+            <strong>Beosztas</strong>
+            <small>Havi beosztas kezelo</small>
+          </span>
+        </a>
+
+        <div class="scheduler-topbar-links">
+          <a href="#composer-section" class="btn btn-sm btn-ghost">Szerkesztes</a>
+          <a href="#config-section" class="btn btn-sm btn-ghost">Finomhangolas</a>
+          <a href="#history-section" class="btn btn-sm btn-ghost">Archivum</a>
+          <a href="#result-section" class="btn btn-sm btn-primary">Eredmeny</a>
         </div>
-        <div class="hero-card">
-          <span>Szabalyok</span>
-          <strong>max. 2 fo / nap</strong>
-          <small>1 embernel a teljes napi ora, 2 embernel mindketten kulon megkapjak a teljes 16 vagy 24 orat.</small>
+      </nav>
+
+      <header class="scheduler-card scheduler-hero-banner overflow-hidden">
+        <div class="grid gap-6 p-6 lg:grid-cols-[minmax(0,1.5fr)_22rem] lg:p-9">
+          <div class="scheduler-stack">
+            <p class="scheduler-eyebrow">Havi beosztas</p>
+            <h1 class="scheduler-hero-title">Havi beosztas generalasa</h1>
+            <p class="scheduler-hero-copy">
+              Valaszd ki a honapot, add meg a kiveteleket es a munkatarsakat, majd inditsd el a generalast.
+            </p>
+            <div class="scheduler-hero-actions">
+              <a href="#composer-section" class="btn btn-primary btn-lg">Ugras a szerkesztohoz</a>
+              <a href="#result-section" class="btn btn-outline btn-lg">Ugras az eredmenyhez</a>
+            </div>
+          </div>
+
+          <div class="scheduler-feature-card">
+            <p class="scheduler-eyebrow">Szabalyok</p>
+            <h2>Alap korlatok</h2>
+            <p>
+              A rendszer a 16 es 24 oras napokat, a kezi kiveteleket es a 168 oras korlatot egyutt kezeli.
+            </p>
+            <div class="scheduler-pill-row">
+              <span class="scheduler-rule-chip">16 oras hetkoznapok</span>
+              <span class="scheduler-rule-chip">24 oras hetvegek</span>
+              <span class="scheduler-rule-chip">Primary / secondary</span>
+            </div>
+          </div>
         </div>
       </header>
 
-      <main class="top-layout">
-        <section class="panel composer-panel">
-          <div class="panel-topline">
+      <section id="config-section" class="scheduler-card scheduler-config-shell p-6 lg:p-8">
+        <div class="scheduler-section-head">
+          <div>
+            <p class="scheduler-eyebrow">Halado beallitasok</p>
+            <h2 class="scheduler-section-title">Scheduler finomhangolas</h2>
+            <p class="scheduler-chip-note">
+              A generator score-sulyai, toleranciai es blokklogikaja itt allithato. A menu kulon blokkban jelenik meg,
+              es barmikor visszaallhatsz a szerver `.env` alapertelmezett ertekeire.
+            </p>
+          </div>
+          <button type="button" class="btn btn-outline" id="reset-config-btn">Env alapok visszaallitasa</button>
+        </div>
+
+        <div id="config-list" class="scheduler-stack scheduler-config-list"></div>
+      </section>
+
+      <main>
+        <section id="composer-section" class="scheduler-card p-6 lg:p-8">
+          <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             <div>
-              <p class="section-label">Beallitasok</p>
-              <h2>Generalas inditasa</h2>
+              <p class="scheduler-eyebrow">Beallitasok</p>
+              <h2 class="scheduler-section-title">Generalas inditasa</h2>
+              <p class="scheduler-chip-note">Honap, kivetelek, munkatarsak, majd generalas.</p>
             </div>
-            <button type="button" class="secondary-button" id="reset-form-btn">Alaphelyzet</button>
+            <button type="button" class="btn btn-outline" id="reset-form-btn">Alaphelyzet</button>
           </div>
 
-          <form id="generator-form" class="generator-form">
-            <label class="field">
-              <span>Aktualis honap</span>
-              <input id="month-input" name="month" type="month" required />
-            </label>
-
-            <section class="exception-section">
-              <div class="subsection-head">
-                <div>
-                  <p class="section-label">Kivetelek</p>
-                  <h3>Kezi felulirasok az adott honapra</h3>
-                </div>
-                <button type="button" class="secondary-button" id="add-exception-btn">Kivetel hozzaadasa</button>
+          <form id="generator-form" class="scheduler-stack mt-6">
+            <section class="scheduler-input-stage">
+              <div>
+                <p class="scheduler-eyebrow">1. Lepes</p>
+                <h3 class="scheduler-section-title is-small">Honap kivalasztasa</h3>
               </div>
-
-              <p class="chip-note">Felulirhatod az automatikus hetvege es unnepnap logikat, peldaul ledolgozos szombatra vagy athelyezett pihenonapra.</p>
-              <div id="exceptions-list" class="exceptions-list"></div>
+              <label class="form-control scheduler-field max-w-xs">
+                <div class="label"><span class="label-text">Valasztott honap</span></div>
+                <input id="month-input" name="month" type="month" class="input input-bordered" required />
+              </label>
             </section>
 
-            <div class="subsection-head">
+            <section class="scheduler-stack scheduler-section-block">
               <div>
-                <p class="section-label">Emberek</p>
-                <h3>Munkatarsak es nem vallalt napok</h3>
+                <p class="scheduler-eyebrow">2. Lepes</p>
+                <h3 class="scheduler-section-title is-small">Kezi felulirasok az adott honapra</h3>
               </div>
-              <button type="button" class="secondary-button" id="add-person-btn">Uj ember</button>
-            </div>
 
-            <div id="people-list" class="people-list"></div>
+              <p class="scheduler-chip-note">
+                Felulirhatod az automatikus hetvege es unnepnap logikat, peldaul ledolgozos szombatra vagy athelyezett pihenonapra.
+              </p>
+              <div id="exceptions-list" class="scheduler-stack"></div>
 
-            <div class="form-footer">
-              <button type="submit" class="primary-button" id="generate-btn">Beosztas generalasa</button>
+              <div class="scheduler-section-footer">
+                <div>
+                  <p class="scheduler-eyebrow">Kivetelmuvelet</p>
+                  <p class="scheduler-chip-note">Ha kell, itt tudsz uj kivetelezett napot felvenni.</p>
+                </div>
+                <button type="button" class="btn btn-primary btn-soft" id="add-exception-btn">Kivetel hozzaadasa</button>
+              </div>
+            </section>
+
+            <section class="scheduler-stack scheduler-section-block">
+              <div>
+                <p class="scheduler-eyebrow">3. Lepes</p>
+                <h3 class="scheduler-section-title is-small">Munkatarsak es nem vallalt napok</h3>
+                <p class="scheduler-chip-note">Itt adhatod meg a munkatarsakat es a nem vallalt napokat.</p>
+              </div>
+
+              <div class="scheduler-toolbar">
+                <p id="shuffle-people-hint" class="scheduler-chip-note">
+                  A keverés minden munkatársat másik helyre tesz a listában, a saját nem vállalt napjaival együtt.
+                  Az új sorrend a következő generálásnál érvényesül.
+                </p>
+                <button type="button" class="btn btn-outline" id="shuffle-people-btn" aria-describedby="shuffle-people-hint" disabled>Sorrend keverése</button>
+              </div>
+
+              <div id="people-list" class="scheduler-stack"></div>
+            </section>
+
+            <div class="scheduler-form-footer">
+              <button type="button" class="btn btn-primary btn-lg" id="add-person-btn">Uj ember</button>
+              <button type="submit" class="btn btn-primary btn-lg" id="generate-btn">Beosztas generalasa</button>
               <p id="form-status" class="status-text">Nyisd meg a honapot, add meg a neveket, majd jelold ki a nem vallalt napokat.</p>
             </div>
           </form>
         </section>
 
-        <aside class="panel history-panel">
-          <div class="panel-topline">
-            <div>
-              <p class="section-label">Archivum</p>
-              <h2>Korabbi generalasok</h2>
-            </div>
-            <button type="button" class="secondary-button" id="refresh-history-btn">Frissit</button>
-          </div>
-          <div id="history-list" class="history-list"></div>
-        </aside>
       </main>
 
-      <section class="panel result-panel">
-        <div class="panel-topline result-headline">
+      <section id="result-section" class="scheduler-card p-6 lg:p-8">
+        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div>
-            <p class="section-label">Eredmeny</p>
-            <h2>Generalalt beosztas</h2>
+            <p class="scheduler-eyebrow">Eredmeny</p>
+            <h2 class="scheduler-section-title">Generalalt beosztas</h2>
+            <p class="scheduler-chip-note">Itt jelenik meg a havi nezet, az osszegzes es az export.</p>
           </div>
-          <div class="result-actions" id="result-actions"></div>
+          <div class="scheduler-inline-actions" id="result-actions"></div>
         </div>
 
-        <div id="result-empty" class="empty-state">
-          <h3>Meg nincs beosztas.</h3>
-          <p>A generalas utan itt jelenik meg a havi nezet, az osszegzes es a megnyithato HTML export linkje.</p>
+        <div id="result-empty" class="scheduler-empty-state mt-6">
+          <div>
+            <p class="scheduler-eyebrow">Meg nincs beosztas</p>
+            <h3>Inditsd el a generalast.</h3>
+            <p>A generalas utan itt jelenik meg a havi nezet, a szemelyenkenti osszegzes es a megnyithato HTML export linkje.</p>
+          </div>
         </div>
 
-        <div id="result-content" class="result-content hidden"></div>
+        <div id="result-content" class="scheduler-stack mt-6 hidden"></div>
       </section>
+
+      <aside id="history-section" class="scheduler-card p-6 lg:p-7">
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <p class="scheduler-eyebrow">Archivum</p>
+              <h2 class="scheduler-section-title">Korabbi generalasok</h2>
+            </div>
+            <button type="button" class="btn btn-ghost btn-sm" id="refresh-history-btn">Frissit</button>
+          </div>
+          <p class="scheduler-chip-note mt-3">Korabbi generalasok es exportok.</p>
+          <div id="history-list" class="scheduler-history-list mt-5"></div>
+      </aside>
     </div>
   </body>
 </html>

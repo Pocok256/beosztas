@@ -1,0 +1,16 @@
+each entry in history
+  article(class=["card", "scheduler-card", "scheduler-history-card", entry.isActive ? "is-active" : ""])
+    .card-body
+      .scheduler-history-head
+        div
+          h3= entry.monthLabel
+          p= entry.createdAtLabel
+        span.badge.badge-secondary.badge-outline= `${entry.peopleCount} fo`
+      .scheduler-pill-row
+        span.badge.badge-ghost= `${entry.scheduledHours} ora kiosztva`
+        span.badge.badge-ghost= `${entry.warningCount} figyelmeztetes`
+      .scheduler-inline-actions
+        button.btn.btn-sm.btn-primary(type="button" data-history-action="show" data-history-id=entry.id) Megnyit
+        button.btn.btn-sm.btn-ghost(type="button" data-history-action="open-export" data-history-id=entry.id) HTML
+        button.btn.btn-sm.btn-ghost(type="button" data-history-action="download-xls" data-history-id=entry.id) XLS
+        button.btn.btn-sm.btn-ghost(type="button" data-history-action="copy-link" data-history-id=entry.id) Link

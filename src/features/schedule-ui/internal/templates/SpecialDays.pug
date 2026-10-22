@@ -1,0 +1,18 @@
+section.scheduler-stack
+  .scheduler-section-head
+    div
+      p.scheduler-eyebrow Megjegyzesek
+      h3 Specialis napok
+  .scheduler-table-shell
+    table.scheduler-data-table.scheduler-summary-table
+      thead
+        tr
+          th Nap
+          th Tipus
+          th Megjegyzes
+      tbody
+        each row in rows
+          tr
+            td= row.dateIso
+            td= row.typeLabel
+            td= row.note

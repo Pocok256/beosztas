@@ -1,0 +1,19 @@
+section(class="card rounded-[2rem] border border-slate-800/10 bg-white/80 shadow-xl backdrop-blur-xl")
+  div(class="card-body gap-5 p-6 lg:p-7")
+    div(class="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between")
+      div
+        p.export-eyebrow Megjegyzesek
+        h2.export-display.text-2xl.leading-tight Specialis napok
+    .table-shell
+      table.data-table.summary-table
+        thead
+          tr
+            th Nap
+            th Tipus
+            th Megjegyzes
+        tbody
+          each row in rows
+            tr
+              td= row.dateIso
+              td= row.typeLabel
+              td= row.note

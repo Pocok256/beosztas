@@ -1,40 +1,80 @@
-# Havi beosztas generator
+# Monthly Schedule Generator
 
-Ez az alkalmazas egy Node.js alapu, bongeszoben hasznalhato beosztas-generator.
+A Node.js application for generating staff schedules in a web browser.
 
-## Mit tud
+## Features
 
-- Honap alapu beosztast general.
-- Hetvegere 24, hetkoznapra 16 ora kiosztast szamol.
-- A magyar munkaszuneti unnepnapokat automatikusan figyelembe veszi, es azokra is 24 oras muszakkal szamol.
-- A honaphoz kezi kivetel is hozzaadhato, igy egy adott nap kulon munkanapra vagy szunnapra allithato.
-- Egy napra legfeljebb 2 embert oszt be.
-- Ha egy napra 2 ember kerul, mindketten a teljes napi 16 vagy 24 orat kapjak meg.
-- Bekeri a neveket es a nem vallalt napokat.
-- Igyekszik folyamatos blokkokat es a 168 oras celhoz kozeli elosztast adni.
-- Egy ember havi oraszama semmilyen korulmeny kozott nem mehet 168 ora fole.
-- A generalast HTML fajlkent is elmenti, es linket ad hozza.
-- A korabbi generalasok visszanezhetok.
+- Generates monthly schedules.
+- Assigns 24-hour shifts on weekends and 16-hour shifts on weekdays.
+- Automatically accounts for Hungarian public holidays, assigning 24-hour shifts on those days as well.
+- Supports manual day overrides to treat a specific date as a working day or a day off.
+- Assigns up to two people per day.
+- When two people are assigned to a day, each receives the full 16 or 24 hours for that day.
+- Accepts staff names and unavailable dates.
+- The **Shuffle order** button (labeled **Sorrend keverése** in the UI) above the staff list randomly reorders staff with one click. Everyone moves to a different position, keeping their unavailable dates and other data. The next schedule generation uses the new order; existing schedules remain unchanged.
+- Aims for consecutive blocks of shifts and an allocation close to the 168-hour target.
+- Never allows anyone's monthly total to exceed 168 hours.
+- Saves generated schedules as HTML and XLS files and provides download links.
+- Lets you review previously generated schedules.
+- Aims to distribute primary hours equally, while allowing some variation in secondary hours.
 
-## Inditas
+## Getting Started
 
 ```bash
 npm install
 npm start
 ```
 
-Ezutan nyisd meg a bongeszoben a `http://localhost:3000` cimet.
+Then open `http://localhost:3000` in your browser.
 
-## Kezi kivetelek
+## Project Structure
 
-A honapvalaszto alatt kulon felveheto olyan napi feluliras, amely az automatikus hetvege es unnepnap logikat modosítja.
+The application's TypeScript source code is in the `src` directory.
 
-- `Munkanap`: az adott nap 16 oras napkent lesz kezelve.
-- `Szunnap`: az adott nap 24 oras, munkaszuneti napkent lesz kezelve.
+- `src/features/scheduler`: scheduling logic, configuration, and exports.
+- `src/features/server`: Express application and file-based history and export storage.
+- `src/features/schedule-ui`: browser UI modules.
+- `src/shared/types`: shared types.
 
-Ez akkor hasznos, ha athelyezett munkanapot vagy pihenonapot szeretnel figyelembe venni.
+Running `npm start` automatically builds the TypeScript code before starting the application. The compiled output is placed in the `dist` directory.
 
-## Teszt
+## Environment Variables
+
+At startup, the application automatically loads the `.env` file from the project root using the `dotenv` package.
+Use `.env.example` as a starting point.
+
+```bash
+cp .env.example .env
+```
+
+Supported settings:
+
+- `HOST`: the server's listening address.
+- `PORT`: the server port.
+- `PUBLIC_DIR`: the directory containing static frontend files. Defaults to `./dist/public` after the TypeScript build.
+- `EXPORT_DIR`: the directory for exported HTML and XLS files.
+- `DATA_DIR`: the directory containing the history file.
+- `SCHEDULER_*`: scoring weights and tolerances for tuning the scheduler. See `.env.example` for the full list.
+
+## Scheduler Tuning
+
+The schedule generator includes a configuration menu where you can adjust the same scoring weights and tolerances available through `.env`.
+
+- The UI loads the server's current default values, resolved from `.env`.
+- Use the **Restore environment defaults** button (labeled `Env alapok visszaallitasa` in the UI) to restore these values at any time.
+- Each field includes a description of what its weight or tolerance affects.
+- The frontend retrieves these documented settings through the `/api/config` endpoint, so the backend and UI share a single source of truth.
+
+## Manual Day Overrides
+
+Below the month selector, you can add day overrides that change the automatic weekend and public holiday rules.
+
+- **Working day** (`Munkanap` in the UI): treats the date as a 16-hour working day.
+- **Day off** (`Szunnap` in the UI): treats the date as a 24-hour non-working day.
+
+This is useful for accounting for shifted working days or rest days.
+
+## Testing
 
 ```bash
 npm test
@@ -42,48 +82,48 @@ npm test
 
 ## Docker
 
-Az alkalmazas dockerizalva is futtathato, ugy hogy a `data` es `exports` mappa tartalma a host gepen megmaradjon.
+You can also run the application in Docker, with the contents of the `data` and `exports` directories persisted on the host machine.
 
-### Inditas Docker Compose-zal
+### Starting with Docker Compose
 
 ```bash
 docker compose up --build -d
 ```
 
-Ezutan az alkalmazas alapertelmezetten a `http://localhost:3000` cimen erheto el.
+The application is then available at `http://localhost:3000` by default.
 
-### Leallitas
+### Stopping
 
 ```bash
 docker compose down
 ```
 
-### Frissites uj kod utan
+### Updating After Code Changes
 
 ```bash
 docker compose up --build -d
 ```
 
-### Port modositas
+### Changing the Port
 
-Ha nem a 3000-es portot szeretned hasznalni, inditas elott adj meg egy `APP_PORT` kornyezeti valtozot:
+To use a port other than 3000, set the `APP_PORT` environment variable when starting the application:
 
 ```bash
 APP_PORT=8080 docker compose up --build -d
 ```
 
-### Tartos adatok
+### Persistent Data
 
-- A generalasi elozmenyek a `data/history.json` fajlba kerulnek.
-- Az exportalt HTML fajlok az `exports` mappaba kerulnek.
-- A `docker-compose.yml` ezeket bind mounttal a host gep mappaihoz koti, ezert kontener ujrainditas utan is megmaradnak.
+- Schedule generation history is stored in `data/history.json`.
+- Exported HTML and XLS files are stored in the `exports` directory.
+- `docker-compose.yml` bind-mounts these directories from the host machine, so their contents survive container restarts.
 
-### Szerveres feltoltes
+### Deploying to a Server
 
-Masold fel a teljes projektet a szerverre, majd a projekt gyokerkonyvtaraban futtasd:
+Copy the entire project to the server, then run the following command from the project root:
 
 ```bash
 docker compose up --build -d
 ```
 
-Ha a 3000-es port nyitva van a szerveren, akkor az alkalmazas a `http://szerver-ip:3000` cimen azonnal elerheto lesz.
+If port 3000 is open on the server, the application will be available at `http://server-ip:3000`.

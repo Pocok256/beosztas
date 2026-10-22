@@ -1,0 +1,19 @@
+each dayException in exceptions
+  article.card.scheduler-card
+    .card-body
+      .scheduler-form-grid
+        label.form-control.scheduler-field
+          .label
+            span.label-text Nap
+          select.select.select-bordered(data-action="exception-day" data-exception-id=dayException.id)
+            each day in monthDays
+              option(value=day.dayNumber selected=day.dayNumber === dayException.dayNumber)
+                = `${String(day.dayNumber).padStart(2, "0")}. nap · ${day.shortName}${day.weekend ? " · hetvege" : ""}`
+        label.form-control.scheduler-field
+          .label
+            span.label-text Feluliras tipusa
+          select.select.select-bordered(data-action="exception-type" data-exception-id=dayException.id)
+            option(value="workday" selected=dayException.type === "workday") Munkanap · 16 ora
+            option(value="dayoff" selected=dayException.type === "dayoff") Szunnap · 24 ora
+        .scheduler-field.scheduler-inline-end
+          button.btn.btn-sm.btn-outline.btn-error(type="button" data-action="remove-exception" data-exception-id=dayException.id) Torol

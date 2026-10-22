@@ -1,0 +1,20 @@
+.scheduler-calendar
+  .scheduler-calendar-weekdays
+    each weekday in weekdays
+      div(class=["scheduler-calendar-weekday", weekday.isWeekend ? "is-weekend" : ""])= weekday.label
+  .scheduler-calendar-days
+    each placeholder in leadingPlaceholders
+      span.scheduler-calendar-spacer(aria-hidden="true")
+    each day in days
+      button(
+        type="button"
+        class=["btn", "btn-sm", "scheduler-day-chip", "scheduler-calendar-day", day.isSelected ? "btn-primary is-selected" : "btn-ghost", day.isWeekend ? "is-weekend" : ""]
+        data-action="toggle-day"
+        data-person-id=personId
+        data-day-number=day.dayNumber
+        aria-pressed=day.isSelected ? "true" : "false"
+      )
+        strong= day.dayNumber
+        span= day.shortName
+    each placeholder in trailingPlaceholders
+      span.scheduler-calendar-spacer(aria-hidden="true")

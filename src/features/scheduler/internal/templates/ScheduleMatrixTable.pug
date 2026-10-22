@@ -1,0 +1,35 @@
+mixin assignmentContent(cell)
+  span.matrix-shift= cell.shiftLabel
+  if cell.role
+    span(class=`badge badge-outline w-fit ${cell.roleToneClass}`)= cell.role
+
+.table-shell
+  table.data-table.schedule-matrix-table
+    thead
+      tr
+        th.matrix-stub
+        th.matrix-stub
+        each person in people
+          if person.style
+            th.matrix-person(style=person.style)= person.name
+          else
+            | <th class="matrix-person" style="">
+            = person.name
+            | </th>
+    tbody
+      each row in rows
+        tr(class=["matrix-row", row.toneClass])
+          th.matrix-weekday= row.weekdayLabel
+          th.matrix-day-number= row.dayNumberLabel
+          each cell in row.cells
+            if cell.isEmpty
+              td.matrix-cell.is-empty
+            else
+              td.matrix-cell.has-assignment
+                if cell.style
+                  div.person-tone.matrix-assignment(style=cell.style)
+                    +assignmentContent(cell)
+                else
+                  | <div class="person-tone matrix-assignment" style="">
+                  +assignmentContent(cell)
+                  | </div>

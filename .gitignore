@@ -1,3 +1,17 @@
+# Dependencies and generated build files
 node_modules/
+dist/
+/src/features/schedule-ui/internal/CompiledTemplates.ts
+*.tsbuildinfo
+
+# Local runtime data and exports
 data/history.json
 exports/*
+
+# Local environment configuration
+.env
+.env.*
+!.env.example
+
+# npm debug logs
+npm-debug.log*

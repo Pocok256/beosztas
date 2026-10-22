@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "outDir": "./dist",
+    "rootDir": ".",
+    "target": "ES2022",
+    "types": ["node"]
+  },
+  "include": [
+    "server.ts",
+    "test/**/*.ts",
+    "src/features/scheduler/**/*.ts",
+    "src/features/server/**/*.ts",
+    "src/shared/**/*.ts"
+  ],
+  "exclude": ["dist", "src/features/schedule-ui/**/*.ts"]
+}
